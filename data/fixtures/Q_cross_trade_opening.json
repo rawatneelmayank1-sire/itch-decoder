@@ -1,0 +1,100 @@
+{
+  "fixture": "Q_cross_trade_opening",
+  "message_type": "Q",
+  "description": "HIGHEST-VALUE FIXTURE IN THE SET. 'shares' is EIGHT bytes here, not four as in A/F/P. The value 2**32+100 exceeds 32 bits precisely so that a decoder using >I instead of >Q cannot pass by luck - it will also shift every following field. cross_price -> $150.0000",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 40,
+    "length_prefix_hex": "0028",
+    "message_length_bytes": 40,
+    "total_file_bytes": 42,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "51000100001f1aced9f07b00000001000000644141504c202020200016e36000000002000000034f",
+  "framed_hex": "002851000100001f1aced9f07b00000001000000644141504c202020200016e36000000002000000034f",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "51",
+      "raw_value": "Q",
+      "decoded_value": "Q"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0001",
+      "raw_value": 1,
+      "decoded_value": 1
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "1f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "shares",
+      "offset": 11,
+      "length": 8,
+      "type": "integer",
+      "raw_bytes_hex": "0000000100000064",
+      "raw_value": 4294967396,
+      "decoded_value": 4294967396
+    },
+    {
+      "name": "stock",
+      "offset": 19,
+      "length": 8,
+      "type": "alpha",
+      "raw_bytes_hex": "4141504c20202020",
+      "raw_value": "AAPL",
+      "decoded_value": "AAPL"
+    },
+    {
+      "name": "cross_price",
+      "offset": 27,
+      "length": 4,
+      "type": "price(4)",
+      "raw_bytes_hex": "0016e360",
+      "raw_value": 1500000,
+      "decoded_value": "150.0000"
+    },
+    {
+      "name": "match_number",
+      "offset": 31,
+      "length": 8,
+      "type": "integer",
+      "raw_bytes_hex": "0000000200000003",
+      "raw_value": 8589934595,
+      "decoded_value": 8589934595
+    },
+    {
+      "name": "cross_type",
+      "offset": 39,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "4f",
+      "raw_value": "O",
+      "decoded_value": "O"
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

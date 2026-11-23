@@ -1,0 +1,136 @@
+{
+  "fixture": "I_noii_opening_cross_buy_imbalance",
+  "message_type": "I",
+  "description": "Longest message except O (50 bytes). imbalance_direction sits BETWEEN the two 8-byte share counts and the stock symbol, so stock is at offset 28, not 27. paired_shares exceeds 32 bits deliberately.",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 50,
+    "length_prefix_hex": "0032",
+    "message_length_bytes": 50,
+    "total_file_bytes": 52,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "49000100001f1aced9f07b000000010000006400000000000061a8424141504c202020200016df780016e5540016e3604f4c",
+  "framed_hex": "003249000100001f1aced9f07b000000010000006400000000000061a8424141504c202020200016df780016e5540016e3604f4c",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "49",
+      "raw_value": "I",
+      "decoded_value": "I"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0001",
+      "raw_value": 1,
+      "decoded_value": 1
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "1f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "paired_shares",
+      "offset": 11,
+      "length": 8,
+      "type": "integer",
+      "raw_bytes_hex": "0000000100000064",
+      "raw_value": 4294967396,
+      "decoded_value": 4294967396
+    },
+    {
+      "name": "imbalance_shares",
+      "offset": 19,
+      "length": 8,
+      "type": "integer",
+      "raw_bytes_hex": "00000000000061a8",
+      "raw_value": 25000,
+      "decoded_value": 25000
+    },
+    {
+      "name": "imbalance_direction",
+      "offset": 27,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "42",
+      "raw_value": "B",
+      "decoded_value": "B"
+    },
+    {
+      "name": "stock",
+      "offset": 28,
+      "length": 8,
+      "type": "alpha",
+      "raw_bytes_hex": "4141504c20202020",
+      "raw_value": "AAPL",
+      "decoded_value": "AAPL"
+    },
+    {
+      "name": "far_price",
+      "offset": 36,
+      "length": 4,
+      "type": "price(4)",
+      "raw_bytes_hex": "0016df78",
+      "raw_value": 1499000,
+      "decoded_value": "149.9000"
+    },
+    {
+      "name": "near_price",
+      "offset": 40,
+      "length": 4,
+      "type": "price(4)",
+      "raw_bytes_hex": "0016e554",
+      "raw_value": 1500500,
+      "decoded_value": "150.0500"
+    },
+    {
+      "name": "current_reference_price",
+      "offset": 44,
+      "length": 4,
+      "type": "price(4)",
+      "raw_bytes_hex": "0016e360",
+      "raw_value": 1500000,
+      "decoded_value": "150.0000"
+    },
+    {
+      "name": "cross_type",
+      "offset": 48,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "4f",
+      "raw_value": "O",
+      "decoded_value": "O"
+    },
+    {
+      "name": "price_variation_indicator",
+      "offset": 49,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "4c",
+      "raw_value": "L",
+      "decoded_value": "L"
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

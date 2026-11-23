@@ -1,0 +1,15 @@
+{
+  "fixture": "timestamp_six_byte_trap",
+  "file_bytes": 21,
+  "hex": "00134400010000ffffffffffff0100000000000000",
+  "expected_result": "success",
+  "failure_mode": "not malformed - a correctness trap for the 6-byte timestamp",
+  "detail": "A well-formed 19-byte Order Delete. The timestamp is 2**48-1 (all six bytes 0xFF) and the order reference number is 2**56 (0x0100000000000000). A decoder that wrongly reads EIGHT bytes at offset 5 gets timestamp 0xFFFFFFFFFFFF0100 and then runs off the end of the message. One that reads only FOUR gets 4294967295. Only a correct 6-byte read yields both declared values.",
+  "expected_fields": {
+    "msg_type": "D",
+    "stock_locate": 1,
+    "tracking_number": 0,
+    "timestamp": 281474976710655,
+    "order_reference_number": 72057594037927936
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "fixture": "V_mwcb_decline_levels",
+  "message_type": "V",
+  "description": "The ONLY Price(8) fields in the protocol: 8 implied decimals, divisor 100,000,000. Applying the Price(4) divisor of 10,000 gives answers 10,000x too large. level_1 raw 253456789000000 -> 2534567.89",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 35,
+    "length_prefix_hex": "0023",
+    "message_length_bytes": 35,
+    "total_file_bytes": 37,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "56000000001f1aced9f07b0000e68481dfcf400000d217e0f170000000ad423cd46800",
+  "framed_hex": "002356000000001f1aced9f07b0000e68481dfcf400000d217e0f170000000ad423cd46800",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "56",
+      "raw_value": "V",
+      "decoded_value": "V"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "1f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "level_1",
+      "offset": 11,
+      "length": 8,
+      "type": "price(8)",
+      "raw_bytes_hex": "0000e68481dfcf40",
+      "raw_value": 253456789000000,
+      "decoded_value": "2534567.89000000"
+    },
+    {
+      "name": "level_2",
+      "offset": 19,
+      "length": 8,
+      "type": "price(8)",
+      "raw_bytes_hex": "0000d217e0f17000",
+      "raw_value": 231000000000000,
+      "decoded_value": "2310000.00000000"
+    },
+    {
+      "name": "level_3",
+      "offset": 27,
+      "length": 8,
+      "type": "price(8)",
+      "raw_bytes_hex": "0000ad423cd46800",
+      "raw_value": 190500000000000,
+      "decoded_value": "1905000.00000000"
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

@@ -1,0 +1,64 @@
+{
+  "fixture": "B_broken_trade",
+  "message_type": "B",
+  "description": "Same 19-byte layout as D but the 8-byte field is a MATCH number referring back to a previous E, C or P. A pure book builder may ignore B; anything computing volume or time-and-sales must process it.",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 19,
+    "length_prefix_hex": "0013",
+    "message_length_bytes": 19,
+    "total_file_bytes": 21,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "42000100001f1aced9f07b0000000200000002",
+  "framed_hex": "001342000100001f1aced9f07b0000000200000002",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "42",
+      "raw_value": "B",
+      "decoded_value": "B"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0001",
+      "raw_value": 1,
+      "decoded_value": 1
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "1f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "match_number",
+      "offset": 11,
+      "length": 8,
+      "type": "integer",
+      "raw_bytes_hex": "0000000200000002",
+      "raw_value": 8589934594,
+      "decoded_value": 8589934594
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

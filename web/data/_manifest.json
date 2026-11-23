@@ -1,0 +1,42 @@
+{
+ "SPY": {
+  "symbol": "SPY",
+  "stock_locate": 7291,
+  "frames": 2797,
+  "events": 53023,
+  "bytes": 350588,
+  "executions": 660,
+  "at_touch": 660,
+  "punit": 100
+ },
+ "QQQ": {
+  "symbol": "QQQ",
+  "stock_locate": 6449,
+  "frames": 3951,
+  "events": 106404,
+  "bytes": 479709,
+  "executions": 1098,
+  "at_touch": 1098,
+  "punit": 100
+ },
+ "TSLA": {
+  "symbol": "TSLA",
+  "stock_locate": 7804,
+  "frames": 538,
+  "events": 15287,
+  "bytes": 65061,
+  "executions": 516,
+  "at_touch": 516,
+  "punit": 100
+ },
+ "MSFT": {
+  "symbol": "MSFT",
+  "stock_locate": 5217,
+  "frames": 898,
+  "events": 25694,
+  "bytes": 112187,
+  "executions": 713,
+  "at_touch": 713,
+  "punit": 100
+ }
+}

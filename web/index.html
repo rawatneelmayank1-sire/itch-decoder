@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>itch — rebuilding the Nasdaq order book from the raw feed</title>
+<meta name="description" content="A scrubbable order-book depth viewer built from 12,554,295 real Nasdaq TotalView-ITCH 5.0 messages: depth ladder, session depth heatmap, spread, and the correctness and throughput measurements behind them.">
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="app.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23090c12'/%3E%3Crect x='3' y='3' width='10' height='2' fill='%23e79a4a'/%3E%3Crect x='3' y='7' width='10' height='1' fill='%23a48fff'/%3E%3Crect x='3' y='10' width='10' height='3' fill='%2356a6f2'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="shell">
+
+<!-- ============================================================ masthead -->
+<header class="masthead">
+  <div>
+    <div class="provenance">
+      <p class="eyebrow">Nasdaq TotalView-ITCH 5.0</p>
+      <p class="eyebrow">2019-01-30</p>
+      <p class="eyebrow"><span class="num" id="m-bytes">—</span> bytes decoded</p>
+      <p class="eyebrow"><span class="num" id="m-msgs">—</span> messages</p>
+    </div>
+    <h1 class="wordmark">itch <span>order book reconstruction</span></h1>
+  </div>
+  <p class="thesis">
+    An exchange feed never sends you the book. It sends
+    <strong id="m-events">—</strong> changes to it, in order, and expects you to hold the
+    state yourself. This page is that state, rebuilt from the bytes and replayed.
+  </p>
+</header>
+
+<noscript>
+  <p class="nodata">This viewer replays a decoded market-data session in the browser and needs
+  JavaScript. The measurements it displays are all in the project’s
+  <code>README.md</code> and <code>results/</code>.</p>
+</noscript>
+
+<!-- ============================================================ instrument -->
+<main>
+<section class="instrument" id="instrument" aria-label="Order book replay" style="margin-top:22px">
+  <div class="toolbar">
+    <div class="tabs" role="group" aria-label="Symbol" id="tabs"></div>
+
+    <button class="ctl" id="play" type="button" aria-pressed="false">Play</button>
+
+    <div class="speed">
+      <label class="eyebrow" for="rate">Speed</label>
+      <select class="rate" id="rate" title="Session time replayed per real second">
+        <option value="2">2 min / sec</option>
+        <option value="5">5 min / sec</option>
+        <option value="20" selected>20 min / sec</option>
+        <option value="60">60 min / sec</option>
+      </select>
+    </div>
+
+    <div class="clock">
+      <output id="clock" class="num" for="scrub">--:--:--</output>
+      <span class="zone">US / Eastern</span>
+    </div>
+  </div>
+
+  <div class="panes">
+    <!-- ladder -->
+    <div class="pane-ladder">
+      <div class="pane-head">
+        <p class="eyebrow">Depth ladder — resting quantity</p>
+        <p class="eyebrow" id="ladder-levels">—</p>
+      </div>
+      <canvas id="ladder" role="img"
+              aria-label="Depth ladder. The live values are read out beneath it."></canvas>
+      <div class="touchbar">
+        <div class="readout bid">
+          <p class="eyebrow">Best bid</p>
+          <output id="r-bid" class="num">—</output>
+        </div>
+        <div class="readout ask">
+          <p class="eyebrow">Best ask</p>
+          <output id="r-ask" class="num">—</output>
+        </div>
+        <div class="readout mid">
+          <p class="eyebrow">Spread</p>
+          <output id="r-spread" class="num">—</output>
+        </div>
+        <div class="readout mid">
+          <p class="eyebrow">Mid</p>
+          <output id="r-mid" class="num">—</output>
+        </div>
+      </div>
+    </div>
+
+    <!-- session -->
+    <div class="pane-session">
+      <div class="pane-head">
+        <p class="eyebrow">Session depth — price against time, shaded by resting quantity</p>
+        <p class="eyebrow" id="heat-range">—</p>
+      </div>
+      <canvas id="heat" role="img"
+              aria-label="Depth heatmap of the whole session. Price on the vertical axis, session time on the horizontal, shaded by resting quantity. Bids blue below, asks amber above. A bracket marks the slice currently shown in the ladder."></canvas>
+      <div class="pane-head" style="border-top:1px solid var(--rule-soft)">
+        <p class="eyebrow">Spread through the session</p>
+        <p class="eyebrow" id="spread-scale">—</p>
+      </div>
+      <canvas id="spreadchart" role="img"
+              aria-label="Spread over the session, in cents."></canvas>
+      <div class="touchbar">
+        <div class="readout">
+          <p class="eyebrow">Bid depth, 8 levels</p>
+          <output id="r-bdepth" class="num">—</output>
+        </div>
+        <div class="readout">
+          <p class="eyebrow">Ask depth, 8 levels</p>
+          <output id="r-adepth" class="num">—</output>
+        </div>
+        <div class="readout">
+          <p class="eyebrow">Imbalance</p>
+          <output id="r-imb" class="num">—</output>
+        </div>
+        <div class="readout">
+          <p class="eyebrow">Live price levels</p>
+          <output id="r-levels" class="num">—</output>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- scrubber -->
+  <div class="scrub">
+    <div class="scrub-rail">
+      <label class="sr-only" for="scrub">Session time</label>
+      <input type="range" id="scrub" min="0" max="100" value="0" step="1"
+             aria-valuetext="04:00:00">
+    </div>
+    <div class="axis">
+      <span id="ax-0">04:00:00</span>
+      <span id="ax-1"></span>
+      <span id="ax-2"></span>
+      <span id="ax-3"></span>
+      <span id="ax-4">09:30:30</span>
+    </div>
+    <p class="hint">
+      Drag the rail, drag either chart, or use
+      <kbd>←</kbd> <kbd>→</kbd> to step, <kbd>Home</kbd> <kbd>End</kbd> to jump,
+      <kbd>Space</kbd> to play
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ explainer -->
+<section id="what">
+  <div class="sec-head">
+    <p class="eyebrow">Decode</p>
+    <h2>The feed sends changes, not state</h2>
+    <p>
+      If you have never worked with market data: this is the part that surprises people,
+      and it is the reason the project exists.
+    </p>
+  </div>
+
+  <div class="prose-cols">
+    <div>
+      <p>
+        ITCH is the raw feed Nasdaq broadcasts to anyone who wants to watch its market in
+        full. It is not a quote service. There is no message that says <em>here is the
+        book</em>. What arrives is an unbroken stream of length-prefixed binary records,
+        each one a single event: an order was added, an order was cancelled, part of an
+        order traded, an order was replaced. <strong>Every one is a delta.</strong>
+      </p>
+      <p>
+        So the price you would actually trade against — the best bid, the best offer, the
+        depth behind them — exists nowhere on the wire. It only exists as the accumulated
+        consequence of every message that came before, applied in exactly the order the
+        exchange sent them. Reconstructing it is the price of admission for anything
+        downstream: a spread study, a queue-position model, a fill simulator, a
+        market-impact estimate.
+      </p>
+      <p>
+        And because the book is a running total, a single mishandled message is permanent.
+        Miss one add and the order is invisible for the rest of the day. Apply a cancel
+        out of order and the level is wrong from that instant onward. There is no
+        correcting snapshot coming.
+      </p>
+    </div>
+    <div>
+      <p>
+        Which raises the obvious question: if the exchange never tells you the state, how
+        do you know your state is right? <strong>The exchange does make one kind of
+        falsifiable statement.</strong> When a trade prints, it names the order reference
+        that traded. Nasdaq matches with strict price priority, so a displayed buy order
+        trading at price P proves no better-priced displayed bid existed at that instant.
+        Our book has to independently agree that P was its best bid, immediately before
+        the message is applied.
+      </p>
+      <p>
+        Every execution in the file is checked that way. All
+        <strong id="m-exec">—</strong> of them agree. That is a test against something the
+        exchange said, not against another part of the same codebase — which is what makes
+        it worth quoting.
+      </p>
+      <p>
+        The ladder above is one symbol’s reconstructed state at one instant. Scrub it and
+        you are stepping through 5½ hours of pre-market, ending 30 seconds into the
+        opening cross.
+      </p>
+    </div>
+  </div>
+
+  <figure class="delta" style="margin:clamp(24px,3vw,36px) 0 0">
+    <div class="frame-anatomy">
+      one record on the wire &nbsp;→&nbsp;
+      <b>[ length : 2 bytes ]</b> <b>[ type : 1 byte ]</b>
+      [ stock_locate : 2 ] [ tracking : 2 ] [ timestamp : 6 ] [ … payload … ]
+      &nbsp;&nbsp; big-endian, no delimiter, no padding
+    </div>
+    <div class="delta-grid">
+      <div class="delta-col">
+        <table>
+          <caption class="eyebrow" style="padding-bottom:6px">What arrives — five consecutive messages</caption>
+          <thead>
+            <tr><th>type</th><th>meaning</th><th>ref</th><th>side</th><th class="n">price</th><th class="n">shares</th></tr>
+          </thead>
+          <tbody>
+            <tr class="b"><td class="t">A</td><td>Add order</td><td>8812</td><td class="s">buy</td><td class="n">268.4400</td><td class="n">500</td></tr>
+            <tr class="a"><td class="t">F</td><td>Add, attributed</td><td>8813</td><td class="s">sell</td><td class="n">268.4700</td><td class="n">300</td></tr>
+            <tr class="b"><td class="t">X</td><td>Cancel part</td><td>8812</td><td class="s">buy</td><td class="n">—</td><td class="n">−200</td></tr>
+            <tr class="b"><td class="t">U</td><td>Replace</td><td>8812</td><td class="s">buy</td><td class="n">268.4500</td><td class="n">400</td></tr>
+            <tr class="a rowend"><td class="t">E</td><td>Executed</td><td>8813</td><td class="s">sell</td><td class="n">—</td><td class="n">100</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="delta-col">
+        <table>
+          <caption class="eyebrow" style="padding-bottom:6px">What you must hold — the resulting book</caption>
+          <thead>
+            <tr><th>side</th><th class="n">price</th><th class="n">resting</th><th>orders</th></tr>
+          </thead>
+          <tbody>
+            <tr class="a"><td class="s">ask</td><td class="n">268.4700</td><td class="n">200</td><td>1</td></tr>
+            <tr class="rowend"><td colspan="4" style="color:var(--mid);padding-top:6px">↑ spread 0.0200 &nbsp;·&nbsp; mid 268.4600</td></tr>
+            <tr class="b"><td class="s">bid</td><td class="n">268.4500</td><td class="n">400</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <figcaption>
+      Five messages, none of which state a price level, produce one book. Note the
+      <strong>U</strong>: a replace retires reference 8812 entirely and issues 8814 at the
+      back of the new level’s queue, because moving price forfeits time priority. Getting
+      that wrong leaves a phantom order resting forever.
+    </figcaption>
+  </figure>
+</section>
+
+<!-- ============================================================ evidence -->
+<section id="evidence">
+  <div class="sec-head">
+    <p class="eyebrow">Cross-check</p>
+    <h2>Proving the book was right</h2>
+    <p>
+      Every figure below was measured on the full run over the real file. Regenerate them
+      with <code style="font-family:var(--mono);font-size:0.9em">python run_all.py</code>;
+      they are written to <code style="font-family:var(--mono);font-size:0.9em">results/</code>
+      and read straight from there by the exporter.
+    </p>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>Book vs exchange</h3>
+      <p class="hero-stat" id="c-agree">—<small>Executions at the reconstructed touch price</small></p>
+      <table class="ledger">
+        <tbody>
+          <tr><td>Executions cross-checked (E + C)</td><td class="r" id="c-exec">—</td></tr>
+          <tr><td>Order references resolved</td><td class="r" id="c-refs">—</td></tr>
+          <tr><td>Executions away from the touch</td><td class="r ok" id="c-away">—</td></tr>
+          <tr><td>Resting side empty at execution</td><td class="r ok" id="c-empty">—</td></tr>
+          <tr><td>Fills demanding more than rested</td><td class="r ok" id="c-qty">—</td></tr>
+          <tr><td>Crossed books, of <span class="num" id="c-snaps">—</span> snapshots</td><td class="r ok" id="c-cross">—</td></tr>
+        </tbody>
+      </table>
+      <p>Each check runs <em>before</em> the message is applied, against the state the
+      exchange itself was looking at when it sent it.</p>
+    </div>
+
+    <div class="card">
+      <h3>Decode throughput</h3>
+      <p class="hero-stat" id="c-speedup">—<small id="c-rates">—</small></p>
+      <canvas id="throughput" role="img"
+              aria-label="Decoded records per second, naive versus vectorised, across six workloads."></canvas>
+      <div class="legend">
+        <span><i style="background:var(--fg-faint)"></i>naive · struct.unpack per message</span>
+        <span><i style="background:var(--mid)"></i>vectorised · NumPy structured dtype</span>
+      </div>
+      <p id="c-profile">—</p>
+    </div>
+
+    <div class="card wide">
+      <h3>What 12.55 million messages are actually made of</h3>
+      <canvas id="msgmix" role="img"
+              aria-label="Count of each ITCH message type in the decoded file, on a logarithmic scale."></canvas>
+      <div class="legend">
+        <span><i style="background:var(--bid)"></i>changes the book</span>
+        <span><i style="background:var(--fg-faint)"></i>counted, framed, skipped</span>
+      </div>
+      <p>
+        Adds and deletes dominate: most order flow is quoting, not trading. The greyed
+        types are walked and skipped by both decoders — administrative, auction and
+        reference messages that never touch a price level. Logarithmic scale, because the
+        counts span seven orders of magnitude; the exact figure is printed on each bar.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ colophon -->
+<footer>
+  <div>
+    <p class="eyebrow">Source</p>
+    <p id="f-source">—</p>
+  </div>
+  <div>
+    <p class="eyebrow">What this page is showing</p>
+    <p id="f-frames">—</p>
+  </div>
+  <div>
+    <p class="eyebrow">Measured on</p>
+    <p id="f-env">—</p>
+  </div>
+  <div>
+    <p class="eyebrow">Scope</p>
+    <p>One venue’s displayed book, not the consolidated NBBO, over a pre-market window
+    that ends 30 seconds into regular trading. The repository’s
+    <code style="font-family:var(--mono);font-size:0.9em">README.md</code>,
+    <code style="font-family:var(--mono);font-size:0.9em">DESIGN.md</code> and
+    <code style="font-family:var(--mono);font-size:0.9em">FAILURES.md</code> state the
+    limitations, the design arguments and the things that went wrong, in full.</p>
+  </div>
+</footer>
+</main>
+</div>
+
+<script src="data/summary.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

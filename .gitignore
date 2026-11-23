@@ -1,0 +1,54 @@
+# Market data -- NEVER commit. NASDAQ ITCH captures run from hundreds of MB to many GB
+# and are not ours to redistribute. Regenerate with `python tools_download.py` (real
+# data) or `python -m itch generate` (synthetic). See data/PROVENANCE.md.
+#
+# Everything under data/ is ignored except the provenance notes, two small JSON stat
+# files, and the hand-built test vectors in data/fixtures/ (no real market data).
+data/*
+!data/PROVENANCE.md
+!data/prefix_validation.json
+!data/sample_truncated.stats.json
+!data/fixtures/
+*.itch
+!data/fixtures/**/*.itch
+*.gz
+*.md5sum
+*.NASDAQ_ITCH50*
+# 500,000 real exchange messages (14 MB). Kept local; rebuild it from the prefix with
+# the recipe in data/PROVENANCE.md section 7.
+data/sample_truncated.itch
+
+# Derived artefacts and run logs
+*.db
+*.db-wal
+*.db-shm
+itch.db
+*.log
+
+# Internal work logs
+PROGRESS*.md
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+*.whl
+.venv/
+venv/
+.env
+.env.*
+.pytest_cache/
+.hypothesis/
+.mypy_cache/
+.ruff_cache/
+.benchmarks/
+.coverage
+htmlcov/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

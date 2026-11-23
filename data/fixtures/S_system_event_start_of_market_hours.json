@@ -1,0 +1,64 @@
+{
+  "fixture": "S_system_event_start_of_market_hours",
+  "message_type": "S",
+  "description": "Start of Market hours. Stock Locate is always 0 for system events.",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 12,
+    "length_prefix_hex": "000c",
+    "message_length_bytes": 12,
+    "total_file_bytes": 14,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "53000000011f1aced9f07b51",
+  "framed_hex": "000c53000000011f1aced9f07b51",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "53",
+      "raw_value": "S",
+      "decoded_value": "S"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0001",
+      "raw_value": 1,
+      "decoded_value": 1
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "1f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "event_code",
+      "offset": 11,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "51",
+      "raw_value": "Q",
+      "decoded_value": "Q"
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

@@ -1,0 +1,100 @@
+{
+  "fixture": "A_zeros_add_order_boundary_all_zero",
+  "message_type": "A",
+  "description": "ALL-ZERO boundary case, type A. Timestamp 0 = exactly midnight. The stock field is eight spaces (0x20 x 8), NOT eight NULs - a decoder that strips NULs instead of spaces returns '        ' here while one that strips spaces returns ''. Price 0 is the spec's not-applicable sentinel, not a $0.0000 quote.",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 36,
+    "length_prefix_hex": "0024",
+    "message_length_bytes": 36,
+    "total_file_bytes": 38,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "410000000000000000000000000000000000004200000000202020202020202000000000",
+  "framed_hex": "0024410000000000000000000000000000000000004200000000202020202020202000000000",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "41",
+      "raw_value": "A",
+      "decoded_value": "A"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "000000000000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "order_reference_number",
+      "offset": 11,
+      "length": 8,
+      "type": "integer",
+      "raw_bytes_hex": "0000000000000000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "buy_sell_indicator",
+      "offset": 19,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "42",
+      "raw_value": "B",
+      "decoded_value": "B"
+    },
+    {
+      "name": "shares",
+      "offset": 20,
+      "length": 4,
+      "type": "integer",
+      "raw_bytes_hex": "00000000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "stock",
+      "offset": 24,
+      "length": 8,
+      "type": "alpha",
+      "raw_bytes_hex": "2020202020202020",
+      "raw_value": "",
+      "decoded_value": ""
+    },
+    {
+      "name": "price",
+      "offset": 32,
+      "length": 4,
+      "type": "price(4)",
+      "raw_bytes_hex": "00000000",
+      "raw_value": 0,
+      "decoded_value": "0.0000"
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

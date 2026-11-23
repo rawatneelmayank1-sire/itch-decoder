@@ -1,0 +1,100 @@
+{
+  "fixture": "A_add_order_no_mpid_buy_aapl",
+  "message_type": "A",
+  "description": "The workhorse message. order_reference_number is 2**32+1, which is wrong in every 32-bit-truncating decoder. price raw 1502500 -> $150.2500",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 36,
+    "length_prefix_hex": "0024",
+    "message_length_bytes": 36,
+    "total_file_bytes": 38,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "41000100001f1aced9f07b000000010000000142000000644141504c202020200016ed24",
+  "framed_hex": "002441000100001f1aced9f07b000000010000000142000000644141504c202020200016ed24",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "41",
+      "raw_value": "A",
+      "decoded_value": "A"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0001",
+      "raw_value": 1,
+      "decoded_value": 1
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "1f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "order_reference_number",
+      "offset": 11,
+      "length": 8,
+      "type": "integer",
+      "raw_bytes_hex": "0000000100000001",
+      "raw_value": 4294967297,
+      "decoded_value": 4294967297
+    },
+    {
+      "name": "buy_sell_indicator",
+      "offset": 19,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "42",
+      "raw_value": "B",
+      "decoded_value": "B"
+    },
+    {
+      "name": "shares",
+      "offset": 20,
+      "length": 4,
+      "type": "integer",
+      "raw_bytes_hex": "00000064",
+      "raw_value": 100,
+      "decoded_value": 100
+    },
+    {
+      "name": "stock",
+      "offset": 24,
+      "length": 8,
+      "type": "alpha",
+      "raw_bytes_hex": "4141504c20202020",
+      "raw_value": "AAPL",
+      "decoded_value": "AAPL"
+    },
+    {
+      "name": "price",
+      "offset": 32,
+      "length": 4,
+      "type": "price(4)",
+      "raw_bytes_hex": "0016ed24",
+      "raw_value": 1502500,
+      "decoded_value": "150.2500"
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

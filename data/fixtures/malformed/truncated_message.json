@@ -1,0 +1,11 @@
+{
+  "fixture": "truncated_message",
+  "file_bytes": 22,
+  "hex": "002441000100001f1a3b9ac9fb410001000000000064",
+  "expected_result": "error",
+  "failure_mode": "truncated message body",
+  "detail": "The length prefix declares 36 bytes (a valid Add Order length) but only 20 bytes follow, then EOF. The reader must raise, not silently decode a short message and not treat this as a clean end of file.",
+  "length_prefix": 36,
+  "bytes_actually_following": 20,
+  "suggested_exception": "EOFError / TruncatedMessageError naming both 36 and 20"
+}

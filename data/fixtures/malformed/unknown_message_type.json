@@ -1,0 +1,11 @@
+{
+  "fixture": "unknown_message_type",
+  "file_bytes": 22,
+  "hex": "00145a00000000000000000000000000000000000000",
+  "expected_result": "recoverable",
+  "failure_mode": "unknown message type character",
+  "detail": "Type 'Z' is not defined in ITCH 5.0. Because the 2-byte prefix carries the length independently of the type table, this IS recoverable: consume the 20 declared bytes, count the message as unknown, and continue framing. A decoder that aborts here cannot tolerate a future Nasdaq message type. A decoder that skips a number of bytes taken from its type table rather than from the prefix will desynchronise.",
+  "length_prefix": 20,
+  "unknown_type_char": "Z",
+  "correct_behaviour": "skip exactly 20 bytes, increment an unknown-type counter, continue; do NOT raise"
+}

@@ -1,0 +1,100 @@
+{
+  "fixture": "J_luld_auction_collar",
+  "message_type": "J",
+  "description": "UPPER comes before LOWER here (message O has them the other way round). The final field is a plain integer COUNT of extensions, NOT a price - do not divide it by 10,000.",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 35,
+    "length_prefix_hex": "0023",
+    "message_length_bytes": 35,
+    "total_file_bytes": 37,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "4a002a00001f1aced9f07b54534c4120202020001e848000200b20001cfde000000002",
+  "framed_hex": "00234a002a00001f1aced9f07b54534c4120202020001e848000200b20001cfde000000002",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "4a",
+      "raw_value": "J",
+      "decoded_value": "J"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "002a",
+      "raw_value": 42,
+      "decoded_value": 42
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "1f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "stock",
+      "offset": 11,
+      "length": 8,
+      "type": "alpha",
+      "raw_bytes_hex": "54534c4120202020",
+      "raw_value": "TSLA",
+      "decoded_value": "TSLA"
+    },
+    {
+      "name": "auction_collar_reference_price",
+      "offset": 19,
+      "length": 4,
+      "type": "price(4)",
+      "raw_bytes_hex": "001e8480",
+      "raw_value": 2000000,
+      "decoded_value": "200.0000"
+    },
+    {
+      "name": "upper_auction_collar_price",
+      "offset": 23,
+      "length": 4,
+      "type": "price(4)",
+      "raw_bytes_hex": "00200b20",
+      "raw_value": 2100000,
+      "decoded_value": "210.0000"
+    },
+    {
+      "name": "lower_auction_collar_price",
+      "offset": 27,
+      "length": 4,
+      "type": "price(4)",
+      "raw_bytes_hex": "001cfde0",
+      "raw_value": 1900000,
+      "decoded_value": "190.0000"
+    },
+    {
+      "name": "auction_collar_extension",
+      "offset": 31,
+      "length": 4,
+      "type": "integer",
+      "raw_bytes_hex": "00000002",
+      "raw_value": 2,
+      "decoded_value": 2
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

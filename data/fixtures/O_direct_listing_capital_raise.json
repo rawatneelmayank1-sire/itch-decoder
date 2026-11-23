@@ -1,0 +1,127 @@
+{
+  "fixture": "O_direct_listing_capital_raise",
+  "message_type": "O",
+  "description": "Added in the 2023-04-28 spec revision, so it appears in NO pre-2023 capture - this fixture is the only coverage it gets. near_execution_time is EIGHT bytes, unlike the 6-byte header timestamp. LOWER collar precedes UPPER here, the reverse of message J.",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 48,
+    "length_prefix_hex": "0030",
+    "message_length_bytes": 48,
+    "total_file_bytes": 50,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "4f006300001f1aced9f07b444c4352434f202059000c3500001b7740000f424000001f1aced9f07b000dbba00010c8e0",
+  "framed_hex": "00304f006300001f1aced9f07b444c4352434f202059000c3500001b7740000f424000001f1aced9f07b000dbba00010c8e0",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "4f",
+      "raw_value": "O",
+      "decoded_value": "O"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0063",
+      "raw_value": 99,
+      "decoded_value": 99
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "1f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "stock",
+      "offset": 11,
+      "length": 8,
+      "type": "alpha",
+      "raw_bytes_hex": "444c4352434f2020",
+      "raw_value": "DLCRCO",
+      "decoded_value": "DLCRCO"
+    },
+    {
+      "name": "open_eligibility_status",
+      "offset": 19,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "59",
+      "raw_value": "Y",
+      "decoded_value": "Y"
+    },
+    {
+      "name": "minimum_allowable_price",
+      "offset": 20,
+      "length": 4,
+      "type": "price(4)",
+      "raw_bytes_hex": "000c3500",
+      "raw_value": 800000,
+      "decoded_value": "80.0000"
+    },
+    {
+      "name": "maximum_allowable_price",
+      "offset": 24,
+      "length": 4,
+      "type": "price(4)",
+      "raw_bytes_hex": "001b7740",
+      "raw_value": 1800000,
+      "decoded_value": "180.0000"
+    },
+    {
+      "name": "near_execution_price",
+      "offset": 28,
+      "length": 4,
+      "type": "price(4)",
+      "raw_bytes_hex": "000f4240",
+      "raw_value": 1000000,
+      "decoded_value": "100.0000"
+    },
+    {
+      "name": "near_execution_time",
+      "offset": 32,
+      "length": 8,
+      "type": "integer",
+      "raw_bytes_hex": "00001f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "lower_price_range_collar",
+      "offset": 40,
+      "length": 4,
+      "type": "price(4)",
+      "raw_bytes_hex": "000dbba0",
+      "raw_value": 900000,
+      "decoded_value": "90.0000"
+    },
+    {
+      "name": "upper_price_range_collar",
+      "offset": 44,
+      "length": 4,
+      "type": "price(4)",
+      "raw_bytes_hex": "0010c8e0",
+      "raw_value": 1100000,
+      "decoded_value": "110.0000"
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

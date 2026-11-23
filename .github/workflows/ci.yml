@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Lint
+        run: ruff check src tests
+
+      - name: Type check
+        run: mypy
+
+      # No market data in CI: the suite runs entirely against the synthetic
+      # generator, which emits byte-exact ITCH 5.0. Real-file numbers in the README
+      # come from local runs and are labelled as such.
+      - name: Test
+        run: pytest -q
+
+      - name: Smoke-test the CLI end to end
+        run: |
+          python -m itch generate /tmp/ci.itch --messages 20000
+          python -m itch decode /tmp/ci.itch --db /tmp/ci.db --kind synthetic \
+            --snapshot-seconds 0.05
+          python -m itch book AAPL --file /tmp/ci.itch
+          python -m itch analyse --db /tmp/ci.db --results /tmp/ci_results
+          test -f /tmp/ci_results/message_distribution.png
+
+      - name: Benchmark smoke test
+        run: python -m itch bench --file /nonexistent --results /tmp/ci_bench --trials 2

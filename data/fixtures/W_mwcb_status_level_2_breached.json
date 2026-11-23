@@ -1,0 +1,64 @@
+{
+  "fixture": "W_mwcb_status_level_2_breached",
+  "message_type": "W",
+  "description": "Byte-identical layout to S (System Event), both 12 bytes. Type char is the only discriminator - a decoder keyed on length alone will confuse them.",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 12,
+    "length_prefix_hex": "000c",
+    "message_length_bytes": 12,
+    "total_file_bytes": 14,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "57000000001f1aced9f07b32",
+  "framed_hex": "000c57000000001f1aced9f07b32",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "57",
+      "raw_value": "W",
+      "decoded_value": "W"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "1f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "breached_level",
+      "offset": 11,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "32",
+      "raw_value": "2",
+      "decoded_value": "2"
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

@@ -1,0 +1,64 @@
+{
+  "fixture": "D_order_delete",
+  "message_type": "D",
+  "description": "Shortest message in the protocol (19 bytes). Byte-identical layout to B (Broken Trade), but the 8-byte field is an ORDER REFERENCE number here and a MATCH number there.",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 19,
+    "length_prefix_hex": "0013",
+    "message_length_bytes": 19,
+    "total_file_bytes": 21,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "44000100001f1aced9f07b0000000100000001",
+  "framed_hex": "001344000100001f1aced9f07b0000000100000001",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "44",
+      "raw_value": "D",
+      "decoded_value": "D"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0001",
+      "raw_value": 1,
+      "decoded_value": 1
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "1f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "order_reference_number",
+      "offset": 11,
+      "length": 8,
+      "type": "integer",
+      "raw_bytes_hex": "0000000100000001",
+      "raw_value": 4294967297,
+      "decoded_value": 4294967297
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

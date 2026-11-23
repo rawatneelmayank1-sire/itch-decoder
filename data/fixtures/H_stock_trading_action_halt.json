@@ -1,0 +1,91 @@
+{
+  "fixture": "H_stock_trading_action_halt",
+  "message_type": "H",
+  "description": "Upper-case H. The reserved byte at offset 20 is a single space; omitting it shifts 'reason' by one and still yields a 4-byte-looking string, so it fails silently. reason 'T1' is space-padded to 'T1  '.",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 25,
+    "length_prefix_hex": "0019",
+    "message_length_bytes": 25,
+    "total_file_bytes": 27,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "48002a00071f1aced9f07b54534c4120202020482054312020",
+  "framed_hex": "001948002a00071f1aced9f07b54534c4120202020482054312020",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "48",
+      "raw_value": "H",
+      "decoded_value": "H"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "002a",
+      "raw_value": 42,
+      "decoded_value": 42
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0007",
+      "raw_value": 7,
+      "decoded_value": 7
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "1f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "stock",
+      "offset": 11,
+      "length": 8,
+      "type": "alpha",
+      "raw_bytes_hex": "54534c4120202020",
+      "raw_value": "TSLA",
+      "decoded_value": "TSLA"
+    },
+    {
+      "name": "trading_state",
+      "offset": 19,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "48",
+      "raw_value": "H",
+      "decoded_value": "H"
+    },
+    {
+      "name": "reserved",
+      "offset": 20,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "20",
+      "raw_value": " ",
+      "decoded_value": " "
+    },
+    {
+      "name": "reason",
+      "offset": 21,
+      "length": 4,
+      "type": "alpha",
+      "raw_bytes_hex": "54312020",
+      "raw_value": "T1",
+      "decoded_value": "T1"
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

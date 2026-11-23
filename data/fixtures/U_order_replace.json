@@ -1,0 +1,91 @@
+{
+  "fixture": "U_order_replace",
+  "message_type": "U",
+  "description": "shares here is the new ABSOLUTE total, unlike the deltas in X and E. Side, symbol and attribution are NOT in this message - the decoder must carry them over from the original Add Order, which is what forces it to keep an order-id -> (side, symbol, mpid) map. price -> $150.5000",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 35,
+    "length_prefix_hex": "0023",
+    "message_length_bytes": 35,
+    "total_file_bytes": 37,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "55000100001f1aced9f07b000000010000000100000001000000680000004b0016f6e8",
+  "framed_hex": "002355000100001f1aced9f07b000000010000000100000001000000680000004b0016f6e8",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "55",
+      "raw_value": "U",
+      "decoded_value": "U"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0001",
+      "raw_value": 1,
+      "decoded_value": 1
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "1f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "original_order_reference_number",
+      "offset": 11,
+      "length": 8,
+      "type": "integer",
+      "raw_bytes_hex": "0000000100000001",
+      "raw_value": 4294967297,
+      "decoded_value": 4294967297
+    },
+    {
+      "name": "new_order_reference_number",
+      "offset": 19,
+      "length": 8,
+      "type": "integer",
+      "raw_bytes_hex": "0000000100000068",
+      "raw_value": 4294967400,
+      "decoded_value": 4294967400
+    },
+    {
+      "name": "shares",
+      "offset": 27,
+      "length": 4,
+      "type": "integer",
+      "raw_bytes_hex": "0000004b",
+      "raw_value": 75,
+      "decoded_value": 75
+    },
+    {
+      "name": "price",
+      "offset": 31,
+      "length": 4,
+      "type": "price(4)",
+      "raw_bytes_hex": "0016f6e8",
+      "raw_value": 1505000,
+      "decoded_value": "150.5000"
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

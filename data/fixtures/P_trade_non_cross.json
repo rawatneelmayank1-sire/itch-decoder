@@ -1,0 +1,109 @@
+{
+  "fixture": "P_trade_non_cross",
+  "message_type": "P",
+  "description": "Longest order/trade message (44 bytes). Both degeneracies are set as the spec documents them: order_reference_number is 0 (null-filled since 2010-12-06) and buy_sell_indicator is 'B' (hardcoded since 2014-07-14) regardless of the true resting side. NEVER infer direction from this field. P does not affect the book but does count for volume. Byte-identical to A for its first 36 bytes.",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 44,
+    "length_prefix_hex": "002c",
+    "message_length_bytes": 44,
+    "total_file_bytes": 46,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "50000100001f1aced9f07b000000000000000042000001f44141504c202020200016e7480000000200000002",
+  "framed_hex": "002c50000100001f1aced9f07b000000000000000042000001f44141504c202020200016e7480000000200000002",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "50",
+      "raw_value": "P",
+      "decoded_value": "P"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0001",
+      "raw_value": 1,
+      "decoded_value": 1
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "1f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "order_reference_number",
+      "offset": 11,
+      "length": 8,
+      "type": "integer",
+      "raw_bytes_hex": "0000000000000000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "buy_sell_indicator",
+      "offset": 19,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "42",
+      "raw_value": "B",
+      "decoded_value": "B"
+    },
+    {
+      "name": "shares",
+      "offset": 20,
+      "length": 4,
+      "type": "integer",
+      "raw_bytes_hex": "000001f4",
+      "raw_value": 500,
+      "decoded_value": 500
+    },
+    {
+      "name": "stock",
+      "offset": 24,
+      "length": 8,
+      "type": "alpha",
+      "raw_bytes_hex": "4141504c20202020",
+      "raw_value": "AAPL",
+      "decoded_value": "AAPL"
+    },
+    {
+      "name": "price",
+      "offset": 32,
+      "length": 4,
+      "type": "price(4)",
+      "raw_bytes_hex": "0016e748",
+      "raw_value": 1501000,
+      "decoded_value": "150.1000"
+    },
+    {
+      "name": "match_number",
+      "offset": 36,
+      "length": 8,
+      "type": "integer",
+      "raw_bytes_hex": "0000000200000002",
+      "raw_value": 8589934594,
+      "decoded_value": 8589934594
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

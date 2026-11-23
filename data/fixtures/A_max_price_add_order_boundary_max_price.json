@@ -1,0 +1,100 @@
+{
+  "fixture": "A_max_price_add_order_boundary_max_price",
+  "message_type": "A",
+  "description": "ALL-MAXIMUM boundary case, type A. stock_locate and tracking_number at 0xFFFF; timestamp at the full 48-bit maximum 2**48-1 (= 78.2 hours, beyond any real trading day, but the widest legal encoding); order_reference_number at 2**64-1; shares at 2**32-1; stock filling all 8 bytes with no padding; price at exactly the spec maximum 0x77359400 = $200,000.0000. Any decoder using signed integers anywhere will return negatives here.",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 36,
+    "length_prefix_hex": "0024",
+    "message_length_bytes": 36,
+    "total_file_bytes": 38,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "41ffffffffffffffffffffffffffffffffffff53ffffffff5a5a5a5a5a5a5a5a77359400",
+  "framed_hex": "002441ffffffffffffffffffffffffffffffffffff53ffffffff5a5a5a5a5a5a5a5a77359400",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "41",
+      "raw_value": "A",
+      "decoded_value": "A"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "ffff",
+      "raw_value": 65535,
+      "decoded_value": 65535
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "ffff",
+      "raw_value": 65535,
+      "decoded_value": 65535
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "ffffffffffff",
+      "raw_value": 281474976710655,
+      "decoded_value": 281474976710655
+    },
+    {
+      "name": "order_reference_number",
+      "offset": 11,
+      "length": 8,
+      "type": "integer",
+      "raw_bytes_hex": "ffffffffffffffff",
+      "raw_value": 18446744073709551615,
+      "decoded_value": 18446744073709551615
+    },
+    {
+      "name": "buy_sell_indicator",
+      "offset": 19,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "53",
+      "raw_value": "S",
+      "decoded_value": "S"
+    },
+    {
+      "name": "shares",
+      "offset": 20,
+      "length": 4,
+      "type": "integer",
+      "raw_bytes_hex": "ffffffff",
+      "raw_value": 4294967295,
+      "decoded_value": 4294967295
+    },
+    {
+      "name": "stock",
+      "offset": 24,
+      "length": 8,
+      "type": "alpha",
+      "raw_bytes_hex": "5a5a5a5a5a5a5a5a",
+      "raw_value": "ZZZZZZZZ",
+      "decoded_value": "ZZZZZZZZ"
+    },
+    {
+      "name": "price",
+      "offset": 32,
+      "length": 4,
+      "type": "price(4)",
+      "raw_bytes_hex": "77359400",
+      "raw_value": 2000000000,
+      "decoded_value": "200000.0000"
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

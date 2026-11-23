@@ -1,0 +1,73 @@
+{
+  "fixture": "N_rpii_both_sides",
+  "message_type": "N",
+  "description": "Same length and layout as Y (Reg SHO); only the type character differs.",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 20,
+    "length_prefix_hex": "0014",
+    "message_length_bytes": 20,
+    "total_file_bytes": 22,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "4e000100001f1aced9f07b4141504c2020202041",
+  "framed_hex": "00144e000100001f1aced9f07b4141504c2020202041",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "4e",
+      "raw_value": "N",
+      "decoded_value": "N"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0001",
+      "raw_value": 1,
+      "decoded_value": 1
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "1f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "stock",
+      "offset": 11,
+      "length": 8,
+      "type": "alpha",
+      "raw_bytes_hex": "4141504c20202020",
+      "raw_value": "AAPL",
+      "decoded_value": "AAPL"
+    },
+    {
+      "name": "interest_flag",
+      "offset": 19,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "41",
+      "raw_value": "A",
+      "decoded_value": "A"
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

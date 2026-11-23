@@ -1,0 +1,100 @@
+{
+  "fixture": "L_market_participant_position_nsdq",
+  "message_type": "L",
+  "description": "MPID comes BEFORE stock here - the opposite of message F, where attribution comes last. Easy to transpose.",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 26,
+    "length_prefix_hex": "001a",
+    "message_length_bytes": 26,
+    "total_file_bytes": 28,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "4c000100001f1aced9f07b4e5344514141504c20202020594e41",
+  "framed_hex": "001a4c000100001f1aced9f07b4e5344514141504c20202020594e41",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "4c",
+      "raw_value": "L",
+      "decoded_value": "L"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0001",
+      "raw_value": 1,
+      "decoded_value": 1
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "1f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "mpid",
+      "offset": 11,
+      "length": 4,
+      "type": "alpha",
+      "raw_bytes_hex": "4e534451",
+      "raw_value": "NSDQ",
+      "decoded_value": "NSDQ"
+    },
+    {
+      "name": "stock",
+      "offset": 15,
+      "length": 8,
+      "type": "alpha",
+      "raw_bytes_hex": "4141504c20202020",
+      "raw_value": "AAPL",
+      "decoded_value": "AAPL"
+    },
+    {
+      "name": "primary_market_maker",
+      "offset": 23,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "59",
+      "raw_value": "Y",
+      "decoded_value": "Y"
+    },
+    {
+      "name": "market_maker_mode",
+      "offset": 24,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "4e",
+      "raw_value": "N",
+      "decoded_value": "N"
+    },
+    {
+      "name": "market_participant_state",
+      "offset": 25,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "41",
+      "raw_value": "A",
+      "decoded_value": "A"
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

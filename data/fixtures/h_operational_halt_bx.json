@@ -1,0 +1,82 @@
+{
+  "fixture": "h_operational_halt_bx",
+  "message_type": "h",
+  "description": "LOWER-CASE h. A dispatch table that upper-cases the type byte will route this to H (Stock Trading Action, 25 bytes) and then mis-frame everything after it.",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 21,
+    "length_prefix_hex": "0015",
+    "message_length_bytes": 21,
+    "total_file_bytes": 23,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "68002a00001f1aced9f07b54534c41202020204248",
+  "framed_hex": "001568002a00001f1aced9f07b54534c41202020204248",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "68",
+      "raw_value": "h",
+      "decoded_value": "h"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "002a",
+      "raw_value": 42,
+      "decoded_value": 42
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "1f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "stock",
+      "offset": 11,
+      "length": 8,
+      "type": "alpha",
+      "raw_bytes_hex": "54534c4120202020",
+      "raw_value": "TSLA",
+      "decoded_value": "TSLA"
+    },
+    {
+      "name": "market_code",
+      "offset": 19,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "42",
+      "raw_value": "B",
+      "decoded_value": "B"
+    },
+    {
+      "name": "operational_halt_action",
+      "offset": 20,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "48",
+      "raw_value": "H",
+      "decoded_value": "H"
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

@@ -1,0 +1,328 @@
+{
+  "valid": [
+    {
+      "key": "S",
+      "message_type": "S",
+      "message_length": 12,
+      "file_bytes": 14,
+      "binary": "S_system_event_start_of_market_hours.itch",
+      "expected": "S_system_event_start_of_market_hours.json",
+      "fields": 5
+    },
+    {
+      "key": "R",
+      "message_type": "R",
+      "message_length": 39,
+      "file_bytes": 41,
+      "binary": "R_stock_directory_aapl.itch",
+      "expected": "R_stock_directory_aapl.json",
+      "fields": 18
+    },
+    {
+      "key": "H",
+      "message_type": "H",
+      "message_length": 25,
+      "file_bytes": 27,
+      "binary": "H_stock_trading_action_halt.itch",
+      "expected": "H_stock_trading_action_halt.json",
+      "fields": 8
+    },
+    {
+      "key": "Y",
+      "message_type": "Y",
+      "message_length": 20,
+      "file_bytes": 22,
+      "binary": "Y_reg_sho_restriction_in_effect.itch",
+      "expected": "Y_reg_sho_restriction_in_effect.json",
+      "fields": 6
+    },
+    {
+      "key": "L",
+      "message_type": "L",
+      "message_length": 26,
+      "file_bytes": 28,
+      "binary": "L_market_participant_position_nsdq.itch",
+      "expected": "L_market_participant_position_nsdq.json",
+      "fields": 9
+    },
+    {
+      "key": "V",
+      "message_type": "V",
+      "message_length": 35,
+      "file_bytes": 37,
+      "binary": "V_mwcb_decline_levels.itch",
+      "expected": "V_mwcb_decline_levels.json",
+      "fields": 7
+    },
+    {
+      "key": "W",
+      "message_type": "W",
+      "message_length": 12,
+      "file_bytes": 14,
+      "binary": "W_mwcb_status_level_2_breached.itch",
+      "expected": "W_mwcb_status_level_2_breached.json",
+      "fields": 5
+    },
+    {
+      "key": "K",
+      "message_type": "K",
+      "message_length": 28,
+      "file_bytes": 30,
+      "binary": "K_ipo_quoting_period_update.itch",
+      "expected": "K_ipo_quoting_period_update.json",
+      "fields": 8
+    },
+    {
+      "key": "J",
+      "message_type": "J",
+      "message_length": 35,
+      "file_bytes": 37,
+      "binary": "J_luld_auction_collar.itch",
+      "expected": "J_luld_auction_collar.json",
+      "fields": 9
+    },
+    {
+      "key": "h",
+      "message_type": "h",
+      "message_length": 21,
+      "file_bytes": 23,
+      "binary": "h_operational_halt_bx.itch",
+      "expected": "h_operational_halt_bx.json",
+      "fields": 7
+    },
+    {
+      "key": "A",
+      "message_type": "A",
+      "message_length": 36,
+      "file_bytes": 38,
+      "binary": "A_add_order_no_mpid_buy_aapl.itch",
+      "expected": "A_add_order_no_mpid_buy_aapl.json",
+      "fields": 9
+    },
+    {
+      "key": "F",
+      "message_type": "F",
+      "message_length": 40,
+      "file_bytes": 42,
+      "binary": "F_add_order_mpid_sell_msft.itch",
+      "expected": "F_add_order_mpid_sell_msft.json",
+      "fields": 10
+    },
+    {
+      "key": "E",
+      "message_type": "E",
+      "message_length": 31,
+      "file_bytes": 33,
+      "binary": "E_order_executed.itch",
+      "expected": "E_order_executed.json",
+      "fields": 7
+    },
+    {
+      "key": "C",
+      "message_type": "C",
+      "message_length": 36,
+      "file_bytes": 38,
+      "binary": "C_order_executed_with_price_nonprintable.itch",
+      "expected": "C_order_executed_with_price_nonprintable.json",
+      "fields": 9
+    },
+    {
+      "key": "X",
+      "message_type": "X",
+      "message_length": 23,
+      "file_bytes": 25,
+      "binary": "X_order_cancel_partial.itch",
+      "expected": "X_order_cancel_partial.json",
+      "fields": 6
+    },
+    {
+      "key": "D",
+      "message_type": "D",
+      "message_length": 19,
+      "file_bytes": 21,
+      "binary": "D_order_delete.itch",
+      "expected": "D_order_delete.json",
+      "fields": 5
+    },
+    {
+      "key": "U",
+      "message_type": "U",
+      "message_length": 35,
+      "file_bytes": 37,
+      "binary": "U_order_replace.itch",
+      "expected": "U_order_replace.json",
+      "fields": 8
+    },
+    {
+      "key": "P",
+      "message_type": "P",
+      "message_length": 44,
+      "file_bytes": 46,
+      "binary": "P_trade_non_cross.itch",
+      "expected": "P_trade_non_cross.json",
+      "fields": 10
+    },
+    {
+      "key": "Q",
+      "message_type": "Q",
+      "message_length": 40,
+      "file_bytes": 42,
+      "binary": "Q_cross_trade_opening.itch",
+      "expected": "Q_cross_trade_opening.json",
+      "fields": 9
+    },
+    {
+      "key": "B",
+      "message_type": "B",
+      "message_length": 19,
+      "file_bytes": 21,
+      "binary": "B_broken_trade.itch",
+      "expected": "B_broken_trade.json",
+      "fields": 5
+    },
+    {
+      "key": "I",
+      "message_type": "I",
+      "message_length": 50,
+      "file_bytes": 52,
+      "binary": "I_noii_opening_cross_buy_imbalance.itch",
+      "expected": "I_noii_opening_cross_buy_imbalance.json",
+      "fields": 13
+    },
+    {
+      "key": "N",
+      "message_type": "N",
+      "message_length": 20,
+      "file_bytes": 22,
+      "binary": "N_rpii_both_sides.itch",
+      "expected": "N_rpii_both_sides.json",
+      "fields": 6
+    },
+    {
+      "key": "O",
+      "message_type": "O",
+      "message_length": 48,
+      "file_bytes": 50,
+      "binary": "O_direct_listing_capital_raise.itch",
+      "expected": "O_direct_listing_capital_raise.json",
+      "fields": 12
+    },
+    {
+      "key": "A_max_price",
+      "message_type": "A",
+      "message_length": 36,
+      "file_bytes": 38,
+      "binary": "A_max_price_add_order_boundary_max_price.itch",
+      "expected": "A_max_price_add_order_boundary_max_price.json",
+      "fields": 9
+    },
+    {
+      "key": "A_zeros",
+      "message_type": "A",
+      "message_length": 36,
+      "file_bytes": 38,
+      "binary": "A_zeros_add_order_boundary_all_zero.itch",
+      "expected": "A_zeros_add_order_boundary_all_zero.json",
+      "fields": 9
+    }
+  ],
+  "malformed": [
+    {
+      "key": "truncated_message",
+      "file_bytes": 22,
+      "binary": "malformed/truncated_message.itch",
+      "expected": "malformed/truncated_message.json",
+      "expected_result": "error"
+    },
+    {
+      "key": "unknown_message_type",
+      "file_bytes": 22,
+      "binary": "malformed/unknown_message_type.itch",
+      "expected": "malformed/unknown_message_type.json",
+      "expected_result": "recoverable"
+    },
+    {
+      "key": "bad_length_prefix_zero",
+      "file_bytes": 38,
+      "binary": "malformed/bad_length_prefix_zero.itch",
+      "expected": "malformed/bad_length_prefix_zero.json",
+      "expected_result": "error"
+    },
+    {
+      "key": "length_prefix_mismatch",
+      "file_bytes": 42,
+      "binary": "malformed/length_prefix_mismatch.itch",
+      "expected": "malformed/length_prefix_mismatch.json",
+      "expected_result": "error"
+    },
+    {
+      "key": "truncated_length_prefix",
+      "file_bytes": 1,
+      "binary": "malformed/truncated_length_prefix.itch",
+      "expected": "malformed/truncated_length_prefix.json",
+      "expected_result": "error"
+    },
+    {
+      "key": "timestamp_six_byte_trap",
+      "file_bytes": 21,
+      "binary": "malformed/timestamp_six_byte_trap.itch",
+      "expected": "malformed/timestamp_six_byte_trap.json",
+      "expected_result": "success"
+    }
+  ],
+  "coverage": {
+    "message_types_covered": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "H",
+      "I",
+      "J",
+      "K",
+      "L",
+      "N",
+      "O",
+      "P",
+      "Q",
+      "R",
+      "S",
+      "U",
+      "V",
+      "W",
+      "X",
+      "Y",
+      "h"
+    ],
+    "message_types_in_spec": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "H",
+      "I",
+      "J",
+      "K",
+      "L",
+      "N",
+      "O",
+      "P",
+      "Q",
+      "R",
+      "S",
+      "U",
+      "V",
+      "W",
+      "X",
+      "Y",
+      "h"
+    ],
+    "missing": [],
+    "valid_fixtures": 25,
+    "malformed_fixtures": 6
+  }
+}

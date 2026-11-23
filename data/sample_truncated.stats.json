@@ -1,0 +1,23 @@
+{
+  "messages": 500000,
+  "bytes": 14409954,
+  "first_timestamp_ns": 11039687760787,
+  "last_timestamp_ns": 15014632907888,
+  "first_timestamp_et": "03:03:59.687760787",
+  "last_timestamp_et": "04:10:14.632907888",
+  "message_type_counts": {
+    "L": 193665,
+    "A": 114411,
+    "D": 107898,
+    "X": 45946,
+    "U": 11549,
+    "R": 8713,
+    "H": 8711,
+    "Y": 8711,
+    "E": 321,
+    "F": 39,
+    "P": 34,
+    "S": 2
+  },
+  "framing_errors": 0
+}

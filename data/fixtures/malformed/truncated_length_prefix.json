@@ -1,0 +1,12 @@
+{
+  "fixture": "truncated_length_prefix",
+  "file_bytes": 1,
+  "hex": "00",
+  "expected_result": "error",
+  "failure_mode": "truncated length prefix",
+  "detail": "A single byte where a 2-byte length prefix is expected. Distinguish this from a CLEAN end of file, which is ZERO bytes available - zero must return normally, one byte must raise. Getting this backwards either hides corruption or reports a spurious error on every well-formed file.",
+  "bytes_available": 1,
+  "bytes_required": 2,
+  "contrast": "0 bytes available => clean EOF, return normally, no exception",
+  "suggested_exception": "EOFError / TruncatedStreamError"
+}

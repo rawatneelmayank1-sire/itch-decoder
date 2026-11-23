@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "itch-decoder"
+version = "0.1.0"
+description = "NASDAQ TotalView-ITCH 5.0 decoder, order book reconstructor, and analytics pipeline"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Neelmayank Rawat", email = "rawatneelmayank1@gmail.com" }]
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.0",
+    "matplotlib>=3.7",
+]
+
+[project.urls]
+Homepage = "https://rawatneelmayank1-sire.github.io/itch-decoder/"
+Repository = "https://github.com/rawatneelmayank1-sire/itch-decoder"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "hypothesis>=6.100",
+    "ruff>=0.6",
+    "mypy>=1.10",
+]
+
+[project.scripts]
+itch = "itch.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q --strict-markers"
+filterwarnings = ["error::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 92
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "SIM", "RUF", "ANN"]
+ignore = [
+    "ANN401",  # explicit Any is occasionally the honest annotation
+    "E501",    # line length is handled by the formatter
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ANN001", "ANN201", "ANN202"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["src/itch"]
+strict = false
+warn_unused_ignores = false
+warn_redundant_casts = true
+warn_unreachable = true
+disallow_untyped_defs = true
+ignore_missing_imports = true

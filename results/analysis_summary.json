@@ -1,0 +1,80 @@
+{
+  "run_id": 1,
+  "source_file": "01302019.NASDAQ_ITCH50.prefix.itch",
+  "source_kind": "real",
+  "bytes_read": 409227774,
+  "messages": 12554295,
+  "snapshot_rows": 32790,
+  "symbols_with_activity": 8693,
+  "charts": [
+    "results/message_distribution.png",
+    "results/spread_curve.png",
+    "results/depth_imbalance.png",
+    "results/top_symbols.png",
+    "results/spread_vs_activity.png"
+  ],
+  "median_spread_usd": 0.04,
+  "median_imbalance": -0.02631578947368421,
+  "tightest_symbols": {
+    "QQQ": 0.03,
+    "AMD": 0.04,
+    "SPY": 0.05,
+    "AAPL": 0.11,
+    "F": 0.2,
+    "BAC": 0.2,
+    "MSFT": 0.22,
+    "TSLA": 0.39
+  },
+  "top_symbols": [
+    {
+      "symbol": "RDS.B",
+      "messages": 315820,
+      "executed_volume": 46901
+    },
+    {
+      "symbol": "SAP",
+      "messages": 304602,
+      "executed_volume": 6784
+    },
+    {
+      "symbol": "RDS.A",
+      "messages": 263945,
+      "executed_volume": 58883
+    },
+    {
+      "symbol": "UN",
+      "messages": 263019,
+      "executed_volume": 1687
+    },
+    {
+      "symbol": "ASML",
+      "messages": 225330,
+      "executed_volume": 10148
+    },
+    {
+      "symbol": "RIO",
+      "messages": 220290,
+      "executed_volume": 59925
+    },
+    {
+      "symbol": "NVS",
+      "messages": 198943,
+      "executed_volume": 43994
+    },
+    {
+      "symbol": "BBL",
+      "messages": 187963,
+      "executed_volume": 28060
+    },
+    {
+      "symbol": "VOD",
+      "messages": 185126,
+      "executed_volume": 33878
+    },
+    {
+      "symbol": "DEO",
+      "messages": 177084,
+      "executed_volume": 1359
+    }
+  ]
+}

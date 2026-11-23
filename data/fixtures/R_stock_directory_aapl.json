@@ -1,0 +1,181 @@
+{
+  "fixture": "R_stock_directory_aapl",
+  "message_type": "R",
+  "description": "Longest run of single-byte alpha fields in the protocol (offsets 25-33). An off-by-one there does NOT change the message length, so a length check will not catch it - this fixture will. Note issue_subtype is 2 bytes: 'Z' padded to 'Z '.",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 39,
+    "length_prefix_hex": "0027",
+    "message_length_bytes": 39,
+    "total_file_bytes": 41,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "52000100001f1aced9f07b4141504c20202020514e000000644e435a20504e4e314e000000004e",
+  "framed_hex": "002752000100001f1aced9f07b4141504c20202020514e000000644e435a20504e4e314e000000004e",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "52",
+      "raw_value": "R",
+      "decoded_value": "R"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0001",
+      "raw_value": 1,
+      "decoded_value": 1
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "1f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "stock",
+      "offset": 11,
+      "length": 8,
+      "type": "alpha",
+      "raw_bytes_hex": "4141504c20202020",
+      "raw_value": "AAPL",
+      "decoded_value": "AAPL"
+    },
+    {
+      "name": "market_category",
+      "offset": 19,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "51",
+      "raw_value": "Q",
+      "decoded_value": "Q"
+    },
+    {
+      "name": "financial_status_indicator",
+      "offset": 20,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "4e",
+      "raw_value": "N",
+      "decoded_value": "N"
+    },
+    {
+      "name": "round_lot_size",
+      "offset": 21,
+      "length": 4,
+      "type": "integer",
+      "raw_bytes_hex": "00000064",
+      "raw_value": 100,
+      "decoded_value": 100
+    },
+    {
+      "name": "round_lots_only",
+      "offset": 25,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "4e",
+      "raw_value": "N",
+      "decoded_value": "N"
+    },
+    {
+      "name": "issue_classification",
+      "offset": 26,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "43",
+      "raw_value": "C",
+      "decoded_value": "C"
+    },
+    {
+      "name": "issue_subtype",
+      "offset": 27,
+      "length": 2,
+      "type": "alpha",
+      "raw_bytes_hex": "5a20",
+      "raw_value": "Z",
+      "decoded_value": "Z"
+    },
+    {
+      "name": "authenticity",
+      "offset": 29,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "50",
+      "raw_value": "P",
+      "decoded_value": "P"
+    },
+    {
+      "name": "short_sale_threshold_indicator",
+      "offset": 30,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "4e",
+      "raw_value": "N",
+      "decoded_value": "N"
+    },
+    {
+      "name": "ipo_flag",
+      "offset": 31,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "4e",
+      "raw_value": "N",
+      "decoded_value": "N"
+    },
+    {
+      "name": "luld_reference_price_tier",
+      "offset": 32,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "31",
+      "raw_value": "1",
+      "decoded_value": "1"
+    },
+    {
+      "name": "etp_flag",
+      "offset": 33,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "4e",
+      "raw_value": "N",
+      "decoded_value": "N"
+    },
+    {
+      "name": "etp_leverage_factor",
+      "offset": 34,
+      "length": 4,
+      "type": "integer",
+      "raw_bytes_hex": "00000000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "inverse_indicator",
+      "offset": 38,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "4e",
+      "raw_value": "N",
+      "decoded_value": "N"
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

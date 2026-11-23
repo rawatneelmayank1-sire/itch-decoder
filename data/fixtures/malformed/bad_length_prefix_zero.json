@@ -1,0 +1,10 @@
+{
+  "fixture": "bad_length_prefix_zero",
+  "file_bytes": 38,
+  "hex": "0000410000000000000000000000000000000000000000000000000000000000000000000000",
+  "expected_result": "error",
+  "failure_mode": "zero length prefix",
+  "detail": "A length prefix of 0 is never valid - no ITCH message is empty, the shortest is 19 bytes (D/B). A reader that accepts it will loop forever consuming zero bytes per iteration. Must raise. Note that valid-looking Add Order bytes follow, so a decoder that ignores the prefix and trusts the type byte will appear to succeed - that is the bug being caught.",
+  "length_prefix": 0,
+  "suggested_exception": "ValueError / BadFramingError; must not hang"
+}

@@ -1,0 +1,73 @@
+{
+  "fixture": "X_order_cancel_partial",
+  "message_type": "X",
+  "description": "cancelled_shares is the number REMOVED, not the number remaining. Subtract it. Cumulative across repeated X messages for the same order reference.",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 23,
+    "length_prefix_hex": "0017",
+    "message_length_bytes": 23,
+    "total_file_bytes": 25,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "58000100001f1aced9f07b00000001000000010000001e",
+  "framed_hex": "001758000100001f1aced9f07b00000001000000010000001e",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "58",
+      "raw_value": "X",
+      "decoded_value": "X"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0001",
+      "raw_value": 1,
+      "decoded_value": 1
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "1f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "order_reference_number",
+      "offset": 11,
+      "length": 8,
+      "type": "integer",
+      "raw_bytes_hex": "0000000100000001",
+      "raw_value": 4294967297,
+      "decoded_value": 4294967297
+    },
+    {
+      "name": "cancelled_shares",
+      "offset": 19,
+      "length": 4,
+      "type": "integer",
+      "raw_bytes_hex": "0000001e",
+      "raw_value": 30,
+      "decoded_value": 30
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

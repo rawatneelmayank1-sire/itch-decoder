@@ -1,0 +1,12 @@
+{
+  "fixture": "length_prefix_mismatch",
+  "file_bytes": 42,
+  "hex": "002841000000000000000000000000000000000000000000000000000000000000000000000000000000",
+  "expected_result": "error",
+  "failure_mode": "length prefix disagrees with the message type",
+  "detail": "The prefix declares 40 bytes and 40 bytes are present, so the read itself succeeds - but type 'A' (Add Order, no MPID) is defined as 36 bytes; 40 is the length of 'F'. This is framing desync, and unlike an unknown type it is NOT recoverable by skipping: the stream position can no longer be trusted. Must raise and report BOTH the prefix (40) and the expected length for 'A' (36).",
+  "length_prefix": 40,
+  "type_char": "A",
+  "expected_length_for_type": 36,
+  "suggested_exception": "ValueError / FramingError quoting 40 and 36"
+}

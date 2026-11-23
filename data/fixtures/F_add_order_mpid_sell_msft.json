@@ -1,0 +1,109 @@
+{
+  "fixture": "F_add_order_mpid_sell_msft",
+  "message_type": "F",
+  "description": "A is a strict 36-byte prefix of F. Same length (40) as Q (Cross Trade) but a completely different layout - length alone never identifies a message. price -> $380.1000",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 40,
+    "length_prefix_hex": "0028",
+    "message_length_bytes": 40,
+    "total_file_bytes": 42,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "46000200001f1aced9f07b000000010000000253000000fa4d534654202020200039ffa84e534451",
+  "framed_hex": "002846000200001f1aced9f07b000000010000000253000000fa4d534654202020200039ffa84e534451",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "46",
+      "raw_value": "F",
+      "decoded_value": "F"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0002",
+      "raw_value": 2,
+      "decoded_value": 2
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "1f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "order_reference_number",
+      "offset": 11,
+      "length": 8,
+      "type": "integer",
+      "raw_bytes_hex": "0000000100000002",
+      "raw_value": 4294967298,
+      "decoded_value": 4294967298
+    },
+    {
+      "name": "buy_sell_indicator",
+      "offset": 19,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "53",
+      "raw_value": "S",
+      "decoded_value": "S"
+    },
+    {
+      "name": "shares",
+      "offset": 20,
+      "length": 4,
+      "type": "integer",
+      "raw_bytes_hex": "000000fa",
+      "raw_value": 250,
+      "decoded_value": 250
+    },
+    {
+      "name": "stock",
+      "offset": 24,
+      "length": 8,
+      "type": "alpha",
+      "raw_bytes_hex": "4d53465420202020",
+      "raw_value": "MSFT",
+      "decoded_value": "MSFT"
+    },
+    {
+      "name": "price",
+      "offset": 32,
+      "length": 4,
+      "type": "price(4)",
+      "raw_bytes_hex": "0039ffa8",
+      "raw_value": 3801000,
+      "decoded_value": "380.1000"
+    },
+    {
+      "name": "attribution",
+      "offset": 36,
+      "length": 4,
+      "type": "alpha",
+      "raw_bytes_hex": "4e534451",
+      "raw_value": "NSDQ",
+      "decoded_value": "NSDQ"
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}

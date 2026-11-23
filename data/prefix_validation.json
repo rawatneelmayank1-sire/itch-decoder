@@ -1,0 +1,28 @@
+{
+  "source_file": "01302019.NASDAQ_ITCH50.prefix.itch",
+  "messages_scanned": 12554295,
+  "framing_errors": 0,
+  "nonmonotonic_timestamps": 0,
+  "first_timestamp_ns": 11039687760787,
+  "last_timestamp_ns": 34230047192187,
+  "max_raw_price4_in_add_orders": 1999999900,
+  "message_type_counts": {
+    "A": 4745681,
+    "D": 4015409,
+    "X": 1084447,
+    "I": 1051216,
+    "F": 685473,
+    "U": 661033,
+    "L": 193722,
+    "E": 62564,
+    "P": 18870,
+    "Y": 8720,
+    "H": 8716,
+    "R": 8714,
+    "Q": 8713,
+    "C": 1013,
+    "S": 3,
+    "V": 1
+  },
+  "trailing_partial_bytes": 0
+}

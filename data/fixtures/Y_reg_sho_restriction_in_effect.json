@@ -1,0 +1,73 @@
+{
+  "fixture": "Y_reg_sho_restriction_in_effect",
+  "message_type": "Y",
+  "description": "Same length and layout as N (RPII) - only the type character distinguishes them.",
+  "framing": {
+    "file_contains": "one framed message: 2-byte big-endian length prefix, then the body",
+    "length_prefix": 20,
+    "length_prefix_hex": "0014",
+    "message_length_bytes": 20,
+    "total_file_bytes": 22,
+    "note": "the length prefix counts the body INCLUDING its 1-byte type char and EXCLUDING the 2 prefix bytes"
+  },
+  "message_hex": "59002a00001f1aced9f07b474d45202020202031",
+  "framed_hex": "001459002a00001f1aced9f07b474d45202020202031",
+  "endianness": "big",
+  "expected_fields": [
+    {
+      "name": "msg_type",
+      "offset": 0,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "59",
+      "raw_value": "Y",
+      "decoded_value": "Y"
+    },
+    {
+      "name": "stock_locate",
+      "offset": 1,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "002a",
+      "raw_value": 42,
+      "decoded_value": 42
+    },
+    {
+      "name": "tracking_number",
+      "offset": 3,
+      "length": 2,
+      "type": "integer",
+      "raw_bytes_hex": "0000",
+      "raw_value": 0,
+      "decoded_value": 0
+    },
+    {
+      "name": "timestamp",
+      "offset": 5,
+      "length": 6,
+      "type": "integer (nanoseconds since midnight, 6 bytes)",
+      "raw_bytes_hex": "1f1aced9f07b",
+      "raw_value": 34200000000123,
+      "decoded_value": 34200000000123
+    },
+    {
+      "name": "stock",
+      "offset": 11,
+      "length": 8,
+      "type": "alpha",
+      "raw_bytes_hex": "474d452020202020",
+      "raw_value": "GME",
+      "decoded_value": "GME"
+    },
+    {
+      "name": "reg_sho_action",
+      "offset": 19,
+      "length": 1,
+      "type": "alpha",
+      "raw_bytes_hex": "31",
+      "raw_value": "1",
+      "decoded_value": "1"
+    }
+  ],
+  "expected_result": "decode succeeds; every field equals decoded_value above"
+}
